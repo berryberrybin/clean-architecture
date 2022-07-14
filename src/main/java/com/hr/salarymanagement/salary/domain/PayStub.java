@@ -14,6 +14,7 @@ import lombok.Value;
 public class PayStub {
 
 	private final EmployeeId employeeId;
+	private final int monthOfSalary;
 
 	private final int netSalary; // 순급여 = (지급항목 - 공제항목) = 주휴수당제외기본급 + 월주휴수당 - 공제항목합계
 

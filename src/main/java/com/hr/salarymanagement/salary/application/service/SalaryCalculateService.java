@@ -5,19 +5,21 @@ package com.hr.salarymanagement.salary.application.service;
 - 입력을 받는다 => 시급, 1일평균근로시간, 1주 평균근무일수를 받음
 - 비지니스 규칙을 검증한다 => 급여 계산
 - 모델 상태를 조작한다 => 급여 등록
-- 출력을 반환한다
+- 출력을 반환한다 => PayStub반환
  */
 
-import com.hr.salarymanagement.attendanceRecord.adapter.port.in.GetAttendanceRecordQuery;
+import com.hr.salarymanagement.attendanceRecord.application.port.in.GetAttendanceRecordQuery;
 import com.hr.salarymanagement.attendanceRecord.domain.AttendanceRecord;
-import com.hr.salarymanagement.company.adapter.port.in.GetCompanyQuery;
+import com.hr.salarymanagement.company.application.port.in.GetCompanyQuery;
 import com.hr.salarymanagement.company.domain.Company;
-import com.hr.salarymanagement.employee.adapter.port.in.GetEmployeeQuery;
+import com.hr.salarymanagement.employee.application.port.in.GetEmployeeQuery;
 import com.hr.salarymanagement.employee.domain.Employee;
 import com.hr.salarymanagement.employee.domain.Employee.EmployeeId;
 import com.hr.salarymanagement.salary.application.port.in.SalaryCalculateCommand;
 import com.hr.salarymanagement.salary.application.port.in.SalaryCalculateUseCase;
-import com.hr.salarymanagement.workcontract.adapter.port.in.GetWorkContractQuery;
+import com.hr.salarymanagement.salary.application.port.out.CreateSalaryPort;
+import com.hr.salarymanagement.salary.domain.Salary;
+import com.hr.salarymanagement.workcontract.application.port.in.GetWorkContractQuery;
 import com.hr.salarymanagement.workcontract.domain.WorkContract;
 import com.hr.salarymanagement.salary.domain.PayStub;
 
@@ -35,12 +37,16 @@ public class SalaryCalculateService implements SalaryCalculateUseCase {
 	private final static int MAXIMUM_WORKING_HOURS_TO_HOLIDAY_SALARY_IN_WEEK = 40;
 	private final static int DEFAULT_WORKING_HOURS_IN_DAY = 8;
 
+	private final CreateSalaryPort createSalaryPort;
+
 	@Override
 	public PayStub calculateSalary(SalaryCalculateCommand salaryCalculateCommand) {
+
 		EmployeeId employeeId = salaryCalculateCommand.getEmployeeId();
+		int searchMonth = salaryCalculateCommand.getSearchMonth();
 		Employee employee = getEmployeeQuery.getEmployee(employeeId);
 		WorkContract workContract = getWorkContractQuery.getWorkContract(employeeId);
-		AttendanceRecord attendanceRecord = getAttendanceRecordQuery.getAttendanceRecord(employeeId);
+		AttendanceRecord attendanceRecord = getAttendanceRecordQuery.getAttendanceRecord(employeeId,searchMonth);
 
 		//시급
 		int hourlyWage = workContract.getHourlyWage();
@@ -101,7 +107,10 @@ public class SalaryCalculateService implements SalaryCalculateUseCase {
 		//순급여
 		int netSalary = taxationSalary + taxFreeSalary - totalDeductionPay;
 
-		return new PayStub(employeeId, netSalary, baseSalary, monthlyHolidaySalary, overtimePay, nightWorkPay,
+		Salary salary = new Salary(employeeId, searchMonth, netSalary);
+		createSalaryPort.createSalary(salary);
+
+		return new PayStub(employeeId, searchMonth, netSalary, baseSalary, monthlyHolidaySalary, overtimePay, nightWorkPay,
 			holidayWorkPay, annualLeavePay, totalDeductionPay);
 	}
 

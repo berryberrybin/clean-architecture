@@ -1,5 +1,6 @@
 package com.hr.salarymanagement.attendanceRecord.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -17,7 +18,7 @@ public class AttendanceRecord {
 
 	private final UUID attendanceRecordId;
 	private final EmployeeId employeeId;
-
+	private final int monthOfAttendanceRecord;
 
 	@ColumnDefault("0")
 	private final int unpaidDaysOff; // 무급추가휴무일수 - 결근 등
@@ -29,6 +30,5 @@ public class AttendanceRecord {
 	private final int sumOverTimeWorkingHours; // 월추가연장근로시간 (5인이상일때 시간당 1.5배지급) => 월급 + (월추가연장근로시간 * 시급 * 0.5배)
 	private final int sumNightWorkingHours; // 월야간근로시간 (5인이상일때 시간당 2배지급) => 월급 + (월추가연장근로시간 * 시급 * 1배)
 	// 현재 계산에서 5인미만 사업장일 경우도 고려하기 위해 -> 기본급에 (모든 근무시간 * 시급)으로 계산되어있으므로 나머지 가산부분만 추가로 더하면 됨
-
 
 }
