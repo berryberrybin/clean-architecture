@@ -28,7 +28,7 @@ class CompanyEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "company_id")
-	private UUID companyId;
+	private Long companyId;
 
 	@Column
 	private String companyName;

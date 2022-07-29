@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hr.salarymanagement.domain.Company;
 
@@ -39,7 +41,7 @@ class EmployeeEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "employee_id")
-	private UUID employeeId; // 직원아이디
+	private Long employeeId; // 직원아이디
 
 	@Column
 	private String EmployeeName; // 직원이름

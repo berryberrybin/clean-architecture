@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 
-public interface CompanyRepository extends JpaRepository<CompanyEntity, UUID> {
+public interface CompanyRepository extends JpaRepository<CompanyEntity, Long> {
 
 	@Query("select a from CompanyEntity  a " + "where a.companyId = :companyId")
-	CompanyEntity findByCompanyId(@Param("companyId") UUID companyId);
+	CompanyEntity findByCompanyId(@Param("companyId") Long companyId);
 
 }

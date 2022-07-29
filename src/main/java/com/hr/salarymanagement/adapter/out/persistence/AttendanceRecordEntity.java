@@ -31,7 +31,7 @@ class AttendanceRecordEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "attendance_record_id")
-	private UUID attendanceRecordId;
+	private Long attendanceRecordId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="employee_id")

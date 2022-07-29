@@ -24,7 +24,7 @@ class SalaryJpaEntity {
 	private Long salaryId;
 
 	@Column
-	private long employeeId;
+	private Long employeeId;
 
 	@Column
 	private int monthOfSalary;

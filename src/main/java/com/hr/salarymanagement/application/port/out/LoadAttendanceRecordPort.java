@@ -6,4 +6,5 @@ import com.hr.salarymanagement.domain.Employee;
 public interface LoadAttendanceRecordPort {
 
 	AttendanceRecord loadAttendanceRecord(Employee.EmployeeId employeeId, int month);
+
 }

@@ -31,7 +31,7 @@ class WorkContractEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "work_contract_Id")
-	private UUID workContractId;
+	private Long workContractId;
 
 	@Column
 	private int hourlyWage; // 시급

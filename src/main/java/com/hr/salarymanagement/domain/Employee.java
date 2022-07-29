@@ -1,6 +1,8 @@
 package com.hr.salarymanagement.domain;
 
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,7 +20,8 @@ public class Employee {
 	private final Date retirementDate; // 퇴사일
 	private final int numberOfDependents; // 부양가족수
 	private final Company.CompanyId companyId; // 회사아이디
-	private final WorkContract.WorkContractId workContractId;
+	private final WorkContract.WorkContractId workContractId;//근로계약서Id
+	private final List<AttendanceRecord> attendanceRecords;
 
 	@Value
 	public static class EmployeeId {
